@@ -14,7 +14,7 @@ const addNoteHandler = (request, h) => {
 
   notes.push(newNote);
 
-  const inSuccess = notes.filter((note) => note.id === id).length > 0;
+  const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
   if (isSuccess) {
     const response = h.response({
@@ -36,4 +36,33 @@ const addNoteHandler = (request, h) => {
   return response;
 };
 
-module.exports = {addNoteHandler};
+const getAllNotesHandler = () => ({
+  status: 'success',
+  data: {
+    notes,
+  },
+});
+
+const getNoteByIdHandler = (request, h) => {
+  const {id} = request.params;
+
+  const note = notes.filter((n) => n.id === id)[0];
+
+  if (note!== undefined) {
+    return {
+      status: 'success',
+      data: {
+        note,
+      },
+    };
+  }
+
+  const response = h.response ({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan',
+  });
+  response.code(404);
+  return response;
+};
+
+module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler};
