@@ -1,8 +1,15 @@
-const route = [
+const {addNoteHandler} = require('./handler');
+
+const routes = [
   {
     method: 'POST',
     path: '/notes',
-    handler: () => {},
+    handler: addNoteHandler,
+    options: {
+      cors: {
+        origin: ['*'],
+      },
+    },
   },
 ];
 
